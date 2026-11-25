@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUMARKET - Buy & Sell in Kenya</title>
+<style>
+body{font-family:Arial;margin:0;background:#f5f5f5;padding-bottom:70px}
+header{background:#00a651;color:white;padding:15px;text-align:center;position:sticky;top:0;z-index:10}
+.card{background:white;margin:10px;padding:12px;border-radius:12px;box-shadow:0 2px 5px #ccc}
+.card img{width:100%;border-radius:10px;max-height:300px;object-fit:cover}
+input,button,select{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:1px solid #ddd;font-size:16px;box-sizing:border-box}
+button{background:#00a651;color:white;border:none;font-weight:bold;cursor:pointer}
+button.red{background:#e74c3c} button.orange{background:#f39c12}
+.nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:white;border-top:1px solid #ddd}
+.nav button{background:white;color:#333;border-radius:0;margin:0}
+.nav button.active{background:#00a651;color:white}
+.stat{display:flex;gap:10px}
+.stat div{flex:1;background:#e8f8f0;padding:12px;border-radius:10px;text-align:center}
+.stat b{font-size:22px;color:#00a651;display:block}
+#status{color:green;text-align:center}
+.hidden{display:none}
+.badge{background:#00a651;color:white;padding:2px 8px;border-radius:10px;font-size:12px}
+</style>
+</head>
+<body>
+<header><h1 style="margin:0">LUMARKET 🇰🇪 ☁️</h1><p style="margin:5px 0 0">Buy & Sell - Free Cloud Photos</p></header>
+<div id="page-home">
+<div class="card"><input id="search" placeholder="🔍 Search e.g. Shoes, Phone..."><button onclick="doSearch()">Search</button></div>
+<h2 style="padding:0 10px">Fresh Products <span id="count"></span></h2>
+<div id="products"></div>
+</div>
+<div id="page-sell" class="hidden">
+<div class="card">
+<h2>Sell Your Product 📸☁️</h2>
+<input id="pname" placeholder="Product Name e.g. Nike Shoes">
+<input id="pprice" placeholder="Price e.g. 1500" type="number">
+<input id="pphone" placeholder="Your WhatsApp e.g. 0712345678">
+<select id="pcat"><option>Clothes</option><option>Shoes</option><option>Phones</option><option>Electronics</option><option>Home</option><option>Other</option></select>
+<label>Take Photo (goes to FREE Cloudinary Cloud):</label>
+<input type="file" id="pphoto" accept="image/*" capture="camera">
+<button id="uploadBtn">UPLOAD TO CLOUD ☁️</button>
+<p id="status"></p>
+</div>
+</div>
+<div id="page-dash" class="hidden">
+<div class="card"><h2>📊 My Dashboard</h2>
+<div class="stat"><div><b id="myCount">0</b>My Products</div><div><b id="myValue">0</b>Total Value Ksh</div><div><b id="allCount">0</b>All Products</div></div>
+<p style="font-size:13px;color:#666">Photos stored in Cloudinary Cloud. No credit card. Faster!</p>
+<button class="orange" onclick="showPage('sell')">+ Add New Product</button>
+</div>
+<h2 style="padding:0 10px">My Products</h2>
+<div id="myProducts"></div>
+</div>
+<div class="nav">
+<button id="btn-home" class="active" onclick="showPage('home')">🏠 Home</button>
+<button id="btn-sell" onclick="showPage('sell')">➕ Sell</button>
+<button id="btn-dash" onclick="showPage('dash')">📊 Dashboard</button>
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const firebaseConfig = { apiKey: "AIzaSyC9l5YcAi5u_G9aIkzh26XktlOZHttxxyI", authDomain: "lumarket-959df.firebaseapp.com", projectId: "lumarket-959df", storageBucket: "lumarket-959df.firebasestorage.app", messagingSenderId: "724512480435", appId: "1:724512480435:web:8b3e029a54b75a050824c6", measurementId: "G-6G0SZM7GRT" };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const CLOUD_NAME = "djndprux";
+const UPLOAD_PRESET = "lumarket";
+let allProducts = [];
+let searchText = "";
+window.showPage = (p)=>{
+  document.getElementById('page-home').classList.toggle('hidden', p!=='home');
+  document.getElementById('page-sell').classList.toggle('hidden', p!=='sell');
+  document.getElementById('page-dash').classList.toggle('hidden', p!=='dash');
+  document.getElementById('btn-home').classList.toggle('active', p==='home');
+  document.getElementById('btn-sell').classList.toggle('active', p==='sell');
+  document.getElementById('btn-dash').classList.toggle('active', p==='dash');
+  window.scrollTo(0,0);
+};
+window.doSearch = ()=>{ searchText = document.getElementById('search').value.toLowerCase(); render(); };
+window.delProduct = async (id)=>{
+  if(!confirm("Delete this product?")) return;
+  await deleteDoc(doc(db,"products",id));
+  let mine = JSON.parse(localStorage.getItem("myLumarket")||"[]").filter(x=>x!==id);
+  localStorage.setItem("myLumarket", JSON.stringify(mine));
+};
+document.getElementById('uploadBtn').onclick = async () => {
+  const name = document.getElementById('pname').value;
+  const price = document.getElementById('pprice').value;
+  const phone = document.getElementById('pphone').value;
+  const cat = document.getElementById('pcat').value;
+  const file = document.getElementById('pphoto').files[0];
+  if(!name || !price || !file){ alert("Fill name, price and photo"); return; }
+  document.getElementById('status').innerText = "Uploading photo to Cloudinary Cloud... wait...";
+  try{
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: "POST", body: formData });
+    const data = await res.json();
+    if(!data.secure_url) throw new Error("Cloudinary failed: " + JSON.stringify(data));
+    const image = data.secure_url;
+    const d = await addDoc(collection(db, "products"), { name, price, phone, cat, image, createdAt: Date.now() });
+    let mine = JSON.parse(localStorage.getItem("myLumarket")||"[]"); mine.push(d.id); localStorage.setItem("myLumarket", JSON.stringify(mine));
+    document.getElementById('status').innerText = "✅ Uploaded to Cloud! Check Dashboard";
+    document.getElementById('pname').value=""; document.getElementById('pprice').value="";
+    showPage('dash');
+  }catch(e){ document.getElementById('status').innerText = "❌ Error: " + e.message; }
+};
+function render(){
+  let list = allProducts.filter(p=> (p.name+" "+p.cat).toLowerCase().includes(searchText));
+  document.getElementById('count').innerText = `(${list.length})`;
+  document.getElementById('products').innerHTML = list.map(p=>`<div class="card"><img src="${p.image}"><span class="badge">${p.cat||'Other'}</span><h3 style="margin:8px 0 0">${p.name}</h3><p><b>Ksh ${p.price}</b></p><a href="https://wa.me/254${(p.phone||'').slice(-9)}?text=Hi, I want ${p.name} on LUMARKET"><button>Buy on WhatsApp</button></a></div>`).join('') || "<p style='padding:10px'>No products yet. Be first!</p>";
+  let mineIds = JSON.parse(localStorage.getItem("myLumarket")||"[]");
+  let mine = allProducts.filter(p=> mineIds.includes(p.id));
+  let total = mine.reduce((s,p)=> s + Number(p.price||0),0);
+  document.getElementById('myCount').innerText = mine.length;
+  document.getElementById('myValue').innerText = total.toLocaleString();
+  document.getElementById('allCount').innerText = allProducts.length;
+  document.getElementById('myProducts').innerHTML = mine.map(p=>`<div class="card"><img src="${p.image}"><h3>${p.name} - Ksh ${p.price}</h3><p>${p.cat}</p><button class="red" onclick="delProduct('${p.id}')">🗑️ Delete</button></div>`).join('') || "<p style='padding:10px'>You haven't uploaded yet. Tap Sell.</p>";
+}
+const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+onSnapshot(q, (snap) => { allProducts = []; snap.forEach(d=> allProducts.push({id:d.id, ...d.data()})); render(); });
+</script>
+</body>
+</html>
