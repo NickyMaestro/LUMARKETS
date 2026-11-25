@@ -108,5 +108,38 @@ function render(){ let list=allProducts.filter(p=> (p.name+" "+p.cat).toLowerCas
 renderCats(); updateUserBar();
 const q=query(collection(db,"products"),orderBy("createdAt","desc")); onSnapshot(q,(snap)=>{allProducts=[]; snap.forEach(d=>allProducts.push({id:d.id,...d.data()})); render();});
 </script>
+<script>
+// EMERGENCY FIX - makes Sign In work without Firebase
+function doSignin(){
+  var name = document.getElementById('uName').value.trim();
+  var phone = document.getElementById('uPhone').value.trim();
+  if(!name || !phone){ alert('Please enter Name and Phone'); return; }
+  localStorage.setItem('lu_user', JSON.stringify({name:name, phone:phone}));
+  var m = document.getElementById('signinModal');
+  m.classList.add('hidden');
+  m.style.display = 'none';
+  alert('Welcome ' + name + '! You are signed in.');
+  location.reload();
+}
+function closeSignin(){
+  var m = document.getElementById('signinModal');
+  m.classList.add('hidden');
+  m.style.display = 'none';
+}
+function closeTerms(){
+  var m = document.getElementById('termsModal');
+  if(m){ m.classList.add('hidden'); m.style.display='none'; }
+}
+function openSignin(){
+  var m = document.getElementById('signinModal');
+  m.classList.remove('hidden');
+  m.style.display = 'flex';
+}
+window.doSignin = doSignin;
+window.closeSignin = closeSignin;
+window.closeTerms = closeTerms;
+window.openSignin = openSignin;
+</script>
+</body>
 </body>
 </html>
