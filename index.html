@@ -1,177 +1,227 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LUMARKET - Buy & Sell Kenya</title>
-/* TERMS FIX - make it readable */
-#termsModal>div{
-  background:#ffffff !important;
-  color:#111111 !important;
-  font-size:16px !important;
-  line-height:1.6 !important;
-  padding:22px !important;
-  max-height:85vh !important;
-  overflow-y:auto !important;
-  width:92% !important;
-  max-width:600px !important;
-  text-align:left !important;
-}
-#termsModal h2, #termsModal h3{
-  color:#111111 !important;
-  font-size:20px !important;
-  margin-bottom:10px !important;
-}
-#termsModal p, #termsModal li{
-  color:#222222 !important;
-  font-size:15px !important;
-  margin-bottom:8px !important;
-}
-#termsModal button{
-  background:#111 !important;
-  color:#fff !important;
-  padding:12px 20px !important;
-  font-size:16px !important;
-  border:none !important;
-  border-radius:8px !important;
-  margin-top:15px !important;
-  width:100% !important;
-}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMARKETS - Marketplace for Farmers and Buyers</title>
 <style>
-body{font-family:Arial;margin:0;background:#fff5f5;padding-bottom:70px;color:#333}
-header{background:#d40000;color:white;padding:15px;text-align:center;position:sticky;top:0;z-index:10}
-header h1{margin:0} header p{margin:5px 0 0}
-.card{background:white;margin:10px;padding:12px;border-radius:12px;box-shadow:0 2px 8px #ffcccc;border:1px solid #ffe0e0}
-.card img{width:100%;border-radius:10px;height:200px;object-fit:cover}
-input,button,select{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:1px solid #ddd;font-size:16px;box-sizing:border-box}
-button{background:#d40000;color:white;border:none;font-weight:bold;cursor:pointer}
-button.white{background:white;color:#d40000;border:2px solid #d40000} button.green{background:#00a651} button.orange{background:#f39c12}
-.nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:white;border-top:2px solid #d40000}
-.nav button{background:white;color:#333;border-radius:0;margin:0}
-.nav button.active{background:#d40000;color:white}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
-.grid .cat{background:white;border:2px solid #d40000;border-radius:12px;padding:15px;text-align:center;font-weight:bold;cursor:pointer}
-.grid .cat.active{background:#d40000;color:white}
-.badge{background:#d40000;color:white;padding:3px 9px;border-radius:10px;font-size:12px}
-.till{background:#fff0f0;border:2px dashed #d40000;padding:10px;border-radius:10px;text-align:center;margin:8px 0}
-.till b{font-size:20px;color:#d40000}
-.stat{display:flex;gap:10px}.stat div{flex:1;background:#ffecec;padding:12px;border-radius:10px;text-align:center}.stat b{font-size:22px;color:#d40000;display:block}
-#status{color:green;text-align:center}.hidden{display:none}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+body{background:#f4f6f4;color:#111}
+header{background:#1a7a2e;color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+header h1{font-size:22px;letter-spacing:1px}
+header button{background:#fff;color:#1a7a2e;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer}
+nav{background:#fff;padding:10px 16px;display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid #ddd;position:sticky;top:52px;z-index:40}
+nav button{white-space:nowrap;border:1px solid #1a7a2e;background:#fff;color:#1a7a2e;padding:7px 14px;border-radius:20px;cursor:pointer}
+nav button.active{background:#1a7a2e;color:#fff}
+.hero{background:#e8f5e9;padding:22px 16px;text-align:center}
+.hero h2{font-size:26px;margin-bottom:6px}
+.hero p{color:#444;margin-bottom:14px}
+.search-box{display:flex;gap:8px;max-width:600px;margin:0 auto}
+.search-box input{flex:1;padding:12px;border:1px solid #ccc;border-radius:10px;font-size:16px}
+.search-box button{background:#1a7a2e;color:#fff;border:none;padding:12px 18px;border-radius:10px;font-weight:bold}
+.actions{padding:14px 16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.actions button{padding:11px 18px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;font-size:15px}
+.btn-green{background:#1a7a2e;color:#fff}
+.btn-dark{background:#111;color:#fff}
+.btn-white{background:#fff;border:1px solid #ccc !important;color:#111}
+.grid{padding:10px 16px 30px;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;max-width:1100px;margin:0 auto}
+.card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.card img{width:100%;height:140px;object-fit:cover}
+.card-body{padding:12px}
+.card-body h3{font-size:16px;margin-bottom:4px}
+.card-body p{font-size:13px;color:#555;margin-bottom:4px}
+.price{font-weight:bold;color:#1a7a2e;font-size:17px;margin:6px 0}
+.card-body button{width:100%;background:#1a7a2e;color:#fff;border:none;padding:9px;border-radius:8px;font-weight:bold;cursor:pointer}
+footer{background:#111;color:#fff;text-align:center;padding:20px;font-size:14px;line-height:1.7}
+footer a{color:#7ddb8a;text-decoration:underline;cursor:pointer}
+/* MODALS - CORRECTED */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:99;padding:15px}
+.modal>div{background:#fff;padding:20px;border-radius:14px;max-height:88vh;overflow-y:auto;width:100%;max-width:500px;color:#111}
+.modal h2{margin-bottom:12px;color:#111}
+.modal label{display:block;margin:12px 0 4px;font-weight:bold;font-size:14px}
+.modal input,.modal select,.modal textarea{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;font-size:16px}
+.modal .close-btn{background:#111;color:#fff;border:none;padding:12px;border-radius:10px;width:100%;margin-top:16px;font-size:16px;font-weight:bold;cursor:pointer}
+.modal .main-btn{background:#1a7a2e;color:#fff;border:none;padding:12px;border-radius:10px;width:100%;margin-top:12px;font-size:16px;font-weight:bold;cursor:pointer}
 .modal.hidden{display:none !important}
+/* TERMS - READABLE, BLACK ON WHITE */
+#termsModal>div{background:#ffffff !important;color:#111111 !important;font-size:16px !important;line-height:1.6 !important;padding:22px !important;max-height:85vh !important;overflow-y:auto !important;text-align:left !important}
+#termsModal h2{color:#111 !important;font-size:22px !important}
+#termsModal h3{color:#111 !important;font-size:18px !important;margin:14px 0 6px}
+#termsModal p,#termsModal li{color:#222 !important;font-size:15px !important;margin-bottom:8px !important}
+#termsModal ul{padding-left:18px}
 </style>
 </head>
 <body>
-<header><h1>LUMARKET 🇰🇪</h1><p>Buy & Sell • Red & White • Pay via Till</p><div id="userBar" style="font-size:13px;margin-top:6px"></div></header>
 
-<div id="page-home">
-<div class="card"><h3 style="margin:0">🔍 Search</h3><input id="search" placeholder="Search Shoes, Phone, Gas..."><button onclick="doSearch()">Search</button>
-<div class="till">💳 <b>PAY VIA TILL: <span id="tillTop">6889219</span></b><br><small>Buy Goods • LUMARKET • Send money then WhatsApp seller</small></div>
-<button class="white" onclick="openTerms()">📜 Terms & Regulations - Click to Read</button>
+<header>
+<h1>🌾 LUMARKETS</h1>
+<div><span id="userLabel" style="font-size:13px;margin-right:8px"></span><button onclick="openSignin()">👤 Sign In</button></div>
+</header>
+
+<nav id="cats">
+<button class="active" onclick="filterCat('All',this)">All</button>
+<button onclick="filterCat('Vegetables',this)">🥬 Vegetables</button>
+<button onclick="filterCat('Fruits',this)">🍎 Fruits</button>
+<button onclick="filterCat('Grains',this)">🌽 Grains</button>
+<button onclick="filterCat('Dairy',this)">🥛 Dairy</button>
+<button onclick="filterCat('Poultry',this)">🐔 Poultry</button>
+</nav>
+
+<div class="hero">
+<h2>Welcome to LUMARKETS</h2>
+<p>Marketplace for Farmers and Buyers in Nyahururu & Kenya</p>
+<div class="search-box">
+<input id="searchInput" placeholder="Search maize, cabbage, eggs..." oninput="render()">
+<button onclick="render()">Search</button>
 </div>
-<h2 style="padding:0 10px">Shop by Category</h2>
-<div class="grid" id="catGrid"></div>
-<h2 style="padding:0 10px">Products <span id="count"></span></h2>
-<div id="products" style="padding:0 10px"></div>
 </div>
 
-<div id="page-sell" class="hidden"><div class="card"><h2>Sell Product 📸</h2>
-<div id="sellLock"></div>
-<input id="pname" placeholder="Product Name e.g. Nike Shoes">
-<input id="pprice" placeholder="Price e.g. 1500" type="number">
-<input id="pphone" placeholder="Your WhatsApp e.g. 0712345678">
-<select id="pcat"><option>Clothes</option><option>Shoes</option><option>Phones</option><option>Electronics</option><option>Home</option><option>Other</option></select>
-<label><input type="checkbox" id="pdeliver" checked style="width:auto"> ✅ I will DELIVER this product (Seller Must Deliver)</label>
-<label>Photo:</label><input type="file" id="pphoto" accept="image/*" capture="camera">
-<button id="uploadBtn">UPLOAD TO CLOUD ☁️</button><p id="status"></p>
-<div class="till">Buyer will pay to Till: <b id="tillSell">6889219</b></div>
-</div></div>
+<div class="actions">
+<button class="btn-green" onclick="openSell()">+ Sell Your Produce</button>
+<button class="btn-dark" onclick="openTerms()">📄 Terms & Regulations</button>
+</div>
 
-<div id="page-dash" class="hidden"><div class="card"><h2>📊 My Dashboard</h2>
-<div class="stat"><div><b id="myCount">0</b>My Products</div><div><b id="myValue">0</b>Value Ksh</div><div><b id="allCount">0</b>All Products</div></div>
-<button class="orange" onclick="showPage('sell')">+ Add New Product</button>
-<button class="white" onclick="logout()">Logout</button></div>
-<h2 style="padding:0 10px">My Products</h2><div id="myProducts" style="padding:0 10px"></div></div>
+<div class="grid" id="grid"></div>
 
-<div class="nav"><button id="btn-home" class="active" onclick="showPage('home')">🏠 Home</button><button id="btn-sell" onclick="showPage('sell')">➕ Sell</button><button id="btn-dash" onclick="showPage('dash')">📊 Dashboard</button><button onclick="openSignin()">👤 Sign In</button></div>
+<footer>
+<p><b>LUMARKETS</b> - Connecting Farmers Directly to Buyers</p>
+<p><a onclick="openTerms()">Terms & Regulations</a> | <a onclick="openSignin()">Sign In</a></p>
+<p>Nyahururu, Kenya</p>
+</footer>
 
-<div id="termsModal" class="modal hidden"><div><h2>📜 LUMARKET Terms & Regulations</h2>
-<p><b>1.</b> Seller MUST deliver the product as described. No fake products.</p>
-<p><b>2.</b> Buyer pays via <b>Till Number 123456</b>. Keep M-Pesa message as proof.</p>
-<p><b>3.</b> Seller must confirm payment before delivery.</p>
-<p><b>4.</b> No stolen goods, no weapons, no illegal items.</p>
-<p><b>5.</b> Prices are in Kenya Shillings (Ksh).</p>
-<p><b>6.</b> LUMARKET is a marketplace - we connect buyer & seller. Always meet in safe public place or use delivery.</p>
-<p><b>7.</b> If seller does not deliver after payment, report to LUMARKET on WhatsApp.</p>
-<p><b>8.</b> By using LUMARKET you agree to these terms.</p>
-<label><input type="checkbox" id="agreeTerms" style="width:auto"> I Agree to Terms</label>
-<button onclick="closeTerms()">Close / I Agree</button></div></div>
+<!-- SIGN IN MODAL -->
+<div id="signinModal" class="modal hidden">
+<div>
+<h2>👤 Sign In</h2>
+<p style="color:#555;font-size:14px">Enter your details to continue.</p>
+<label>Full Name</label>
+<input id="uName" placeholder="e.g. Nick Maina">
+<label>Phone Number</label>
+<input id="uPhone" placeholder="e.g. 0712345678">
+<button class="main-btn" onclick="doSignin()">Sign In</button>
+<button class="close-btn" onclick="closeSignin()">Close</button>
+</div>
+</div>
 
-<div id="signinModal" class="modal hidden"><div><h2>👤 Sign In to LUMARKET</h2>
-<p style="font-size:13px;color:#666">Sign in to sell. Buyers can browse without sign in.</p>
-<input id="sname" placeholder="Your Full Name">
-<input id="sphone" placeholder="Phone e.g. 0712345678">
-<button onclick="doSignin()">Sign In / Create Account</button>
-<button class="white" onclick="closeSignin()">Cancel</button></div></div>
+<!-- SELL MODAL -->
+<div id="sellModal" class="modal hidden">
+<div>
+<h2>+ Sell Your Produce</h2>
+<label>Product Name</label><input id="pName" placeholder="e.g. Cabbages">
+<label>Category</label>
+<select id="pCat"><option>Vegetables</option><option>Fruits</option><option>Grains</option><option>Dairy</option><option>Poultry</option></select>
+<label>Price (KSh)</label><input id="pPrice" type="number" placeholder="e.g. 50">
+<label>Location</label><input id="pLoc" placeholder="e.g. Nyahururu">
+<label>Your Phone</label><input id="pPhone" placeholder="e.g. 0712345678">
+<label>Photo URL (optional)</label><input id="pImg" placeholder="Paste image link">
+<button class="main-btn" onclick="doSell()">Post Product</button>
+<button class="close-btn" onclick="closeSell()">Close</button>
+</div>
+</div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-const firebaseConfig = { apiKey: "AIzaSyC9l5YcAi5u_G9aIkzh26XktlOZHttxxyI", authDomain: "lumarket-959df.firebaseapp.com", projectId: "lumarket-959df", storageBucket: "lumarket-959df.firebasestorage.app", messagingSenderId: "724512480435", appId: "1:724512480435:web:8b3e029a54b75a050824c6", measurementId: "G-6G0SZM7GRT" };
-const app = initializeApp(firebaseConfig); const db = getFirestore(app);
-const CLOUD_NAME = "ljndprux"; const UPLOAD_PRESET = "lumarket";
-const TILL_NUMBER = "123456"; // <-- CHANGE THIS TO YOUR REAL TILL
-document.getElementById('tillTop').innerText = TILL_NUMBER; document.getElementById('tillSell').innerText = TILL_NUMBER;
-let allProducts=[]; let searchText=""; let activeCat="All";
-const cats=[["All","🛍️ All"],["Clothes","👕 Clothes"],["Shoes","👟 Shoes"],["Phones","📱 Phones"],["Electronics","💻 Electronics"],["Home","🏠 Home"],["Other","📦 Other"]];
-function renderCats(){ document.getElementById('catGrid').innerHTML = cats.map(c=>`<div class="cat ${activeCat===c[0]?'active':''}" onclick="setCat('${c[0]}')">${c[1]}</div>`).join(''); }
-window.setCat=(c)=>{activeCat=c; renderCats(); render();};
-window.showPage=(p)=>{ document.getElementById('page-home').classList.toggle('hidden',p!=='home'); document.getElementById('page-sell').classList.toggle('hidden',p!=='sell'); document.getElementById('page-dash').classList.toggle('hidden',p!=='dash'); document.getElementById('btn-home').classList.toggle('active',p==='home'); document.getElementById('btn-sell').classList.toggle('active',p==='sell'); document.getElementById('btn-dash').classList.toggle('active',p==='dash'); window.scrollTo(0,0); updateUserBar(); };
-window.doSearch=()=>{searchText=document.getElementById('search').value.toLowerCase(); render();};
-window.openTerms=()=>document.getElementById('termsModal').classList.remove('hidden');
-window.closeTerms=()=>{ if(!document.getElementById('agreeTerms').checked){ alert("Please tick I Agree"); return; } localStorage.setItem("lumarketTerms","yes"); document.getElementById('termsModal').classList.add('hidden'); };
-window.openSignin=()=>document.getElementById('signinModal').classList.remove('hidden');
-window.closeSignin=()=>document.getElementById('signinModal').classList.add('hidden');
-window.doSignin=()=>{ const n=document.getElementById('sname').value.trim(); const ph=document.getElementById('sphone').value.trim(); if(!n||!ph){alert("Enter name & phone");return;} localStorage.setItem("lumarketUser", JSON.stringify({name:n,phone:ph})); closeSignin(); updateUserBar(); alert("Welcome "+n+"! You can now sell."); showPage('sell'); };
-window.logout=()=>{ localStorage.removeItem("lumarketUser"); updateUserBar(); alert("Logged out"); };
-function getUser(){ try{return JSON.parse(localStorage.getItem("lumarketUser")||"null")}catch(e){return null} }
-function updateUserBar(){ const u=getUser(); document.getElementById('userBar').innerHTML = u? `👤 Hello, ${u.name} • <a href="#" onclick="logout();return false" style="color:white;text-decoration:underline">Logout</a>` : `👤 Not signed in • <a href="#" onclick="openSignin();return false" style="color:white;text-decoration:underline">Sign In to Sell</a>`; const lock=document.getElementById('sellLock'); if(lock) lock.innerHTML = u? `<p style="color:green">✅ Signed in as ${u.name}</p>` : `<p style="color:#d40000">⚠️ You must Sign In first to sell. <button onclick="openSignin()">Sign In</button></p>`; }
-window.delProduct=async(id)=>{ if(!confirm("Delete?"))return; await deleteDoc(doc(db,"products",id)); let mine=JSON.parse(localStorage.getItem("myLumarket")||"[]").filter(x=>x!==id); localStorage.setItem("myLumarket",JSON.stringify(mine)); };
-document.getElementById('uploadBtn').onclick=async()=>{ const u=getUser(); if(!u){ alert("Please Sign In first"); openSignin(); return; } if(localStorage.getItem("lumarketTerms")!=="yes"){ alert("Please read & agree Terms first"); openTerms(); return; } const name=document.getElementById('pname').value; const price=document.getElementById('pprice').value; const phone=document.getElementById('pphone').value||u.phone; const cat=document.getElementById('pcat').value; const deliver=document.getElementById('pdeliver').checked; const file=document.getElementById('pphoto').files[0]; if(!name||!price||!file){alert("Fill name, price, photo");return;} if(!deliver){alert("Seller MUST agree to deliver");return;} document.getElementById('status').innerText="Uploading to Cloud..."; try{ const fd=new FormData(); fd.append("file",file); fd.append("upload_preset",UPLOAD_PRESET); const res=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,{method:"POST",body:fd}); const data=await res.json(); if(!data.secure_url) throw new Error("Cloudinary failed"); const d=await addDoc(collection(db,"products"),{name,price,phone,cat,image:data.secure_url,deliver:true,seller:u.name,till:TILL_NUMBER,createdAt:Date.now()}); let mine=JSON.parse(localStorage.getItem("myLumarket")||"[]"); mine.push(d.id); localStorage.setItem("myLumarket",JSON.stringify(mine)); document.getElementById('status').innerText="✅ Uploaded!"; document.getElementById('pname').value=""; document.getElementById('pprice').value=""; showPage('dash'); }catch(e){ document.getElementById('status').innerText="❌ "+e.message; } };
-function render(){ let list=allProducts.filter(p=> (p.name+" "+p.cat).toLowerCase().includes(searchText) && (activeCat==="All"||p.cat===activeCat)); document.getElementById('count').innerText=`(${list.length})`; document.getElementById('products').innerHTML=list.map(p=>`<div class="card"><img src="${p.image}"><span class="badge">${p.cat||'Other'}</span> <span style="font-size:12px">👤 ${p.seller||'Seller'}</span><h3 style="margin:8px 0 0">${p.name}</h3><p><b style="color:#d40000;font-size:18px">Ksh ${p.price}</b></p><p style="font-size:13px">🚚 <b>Seller Will Deliver</b> ✅</p><div class="till">Pay Till: <b>${p.till||TILL_NUMBER}</b><br><small>Send Ksh ${p.price} then WhatsApp seller</small></div><a href="https://wa.me/254${(p.phone||'').slice(-9)}?text=Hi ${p.seller||''}, I want ${p.name} - Ksh ${p.price} on LUMARKET. I will pay Till ${TILL_NUMBER}"><button>Buy on WhatsApp</button></a><a href="https://wa.me/254${(p.phone||'').slice(-9)}"><button class="white">Chat Seller</button></a></div>`).join('')||"<p style='padding:10px'>No products in this category yet.</p>"; let mineIds=JSON.parse(localStorage.getItem("myLumarket")||"[]"); let mine=allProducts.filter(p=>mineIds.includes(p.id)); let total=mine.reduce((s,p)=>s+Number(p.price||0),0); document.getElementById('myCount').innerText=mine.length; document.getElementById('myValue').innerText=total.toLocaleString(); document.getElementById('allCount').innerText=allProducts.length; document.getElementById('myProducts').innerHTML=mine.map(p=>`<div class="card"><img src="${p.image}"><h3>${p.name} - Ksh ${p.price}</h3><p>${p.cat} • Till ${p.till||TILL_NUMBER}</p><button style="background:#666" onclick="delProduct('${p.id}')">🗑️ Delete</button></div>`).join('')||"<p style='padding:10px'>You haven't uploaded yet.</p>"; }
-renderCats(); updateUserBar();
-const q=query(collection(db,"products"),orderBy("createdAt","desc")); onSnapshot(q,(snap)=>{allProducts=[]; snap.forEach(d=>allProducts.push({id:d.id,...d.data()})); render();});
-</script>
+<!-- TERMS MODAL -->
+<div id="termsModal" class="modal hidden">
+<div>
+<h2>📄 Terms & Regulations</h2>
+<h3>1. About LUMARKETS</h3>
+<p>LUMARKETS connects farmers directly to buyers. We do not buy or sell produce ourselves. We provide the platform for you to meet.</p>
+<h3>2. For Sellers (Farmers)</h3>
+<ul>
+<li>Only post produce you actually have.</li>
+<li>Give honest price, quantity and location.</li>
+<li>Do not post stolen or expired goods.</li>
+<li>Respond to buyers quickly and honestly.</li>
+</ul>
+<h3>3. For Buyers</h3>
+<ul>
+<li>Confirm price, quantity and delivery before paying.</li>
+<li>Inspect produce before paying where possible.</li>
+<li>Pay the seller directly. LUMARKETS does not hold your money.</li>
+</ul>
+<h3>4. Payments & Delivery</h3>
+<p>Buyer and seller agree on payment (Cash, M-Pesa, etc.) and delivery. LUMARKETS is not responsible for delivery delays or quality disputes, but we will help resolve them.</p>
+<h3>5. Prohibited Items</h3>
+<p>No illegal goods, no fake products, no fraud. Accounts that cheat will be removed.</p>
+<h3>6. Privacy</h3>
+<p>Your name and phone are only used so buyers and sellers can contact each other. Do not share your M-Pesa PIN with anyone.</p>
+<h3>7. Agreement</h3>
+<p>By using LUMARKETS, you agree to these terms and to trade fairly and respectfully.</p>
+<button class="main-btn" onclick="closeTerms()">I Understand - Close</button>
+</div>
+</div>
+
 <script>
-// EMERGENCY FIX - makes Sign In work without Firebase
+var products = [
+{name:"Maize (90kg Bag)",cat:"Grains",price:4500,loc:"Nyahururu",phone:"0712345678",img:"https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400"},
+{name:"Cabbages",cat:"Vegetables",price:50,loc:"Nyahururu",phone:"0722000000",img:"https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?w=400"},
+{name:"Potatoes (50kg)",cat:"Vegetables",price:1800,loc:"Ol Kalou",phone:"0733000000",img:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400"},
+{name:"Eggs (Tray of 30)",cat:"Poultry",price:450,loc:"Nyahururu",phone:"0744000000",img:"https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=400"},
+{name:"Fresh Milk (1 Litre)",cat:"Dairy",price:70,loc:"Nyahururu",phone:"0755000000",img:"https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400"},
+{name:"Avocados (1kg)",cat:"Fruits",price:120,loc:"Nyahururu",phone:"0766000000",img:"https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400"},
+{name:"Kienyeji Chicken",cat:"Poultry",price:800,loc:"Nyahururu",phone:"0777000000",img:"https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400"},
+{name:"Beans (90kg)",cat:"Grains",price:8500,loc:"Nyahururu",phone:"0788000000",img:"https://images.unsplash.com/photo-1585996483596-6d80e0c2a9c6?w=400"}
+];
+var currentCat = 'All';
+var saved = JSON.parse(localStorage.getItem('lu_products') || '[]');
+products = saved.concat(products);
+
+function render(){
+  var q = document.getElementById('searchInput').value.toLowerCase();
+  var grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  products.filter(function(p){
+    return (currentCat==='All' || p.cat===currentCat) && p.name.toLowerCase().includes(q);
+  }).forEach(function(p){
+    grid.innerHTML += '<div class="card"><img src="'+p.img+'" onerror="this.src=\'https://via.placeholder.com/400x300?text=LUMARKETS\'"><div class="card-body"><h3>'+p.name+'</h3><p>'+p.cat+' • '+p.loc+'</p><div class="price">KSh '+p.price+'</div><button onclick="buyNow(\''+p.phone+'\',\''+p.name+'\')">Buy / Call Seller</button></div></div>';
+  });
+  if(grid.innerHTML==='') grid.innerHTML='<p style="text-align:center;padding:20px">No products found. Try another search.</p>';
+}
+function filterCat(cat,btn){
+  currentCat=cat;
+  document.querySelectorAll('#cats button').forEach(function(b){b.classList.remove('active')});
+  if(btn) btn.classList.add('active');
+  render();
+}
+function buyNow(phone,name){
+  var user = JSON.parse(localStorage.getItem('lu_user')||'null');
+  if(!user){ alert('Please Sign In first to contact seller.'); openSignin(); return; }
+  window.open('https://wa.me/254'+phone.substring(1)+'?text=Hi, I want to buy '+encodeURIComponent(name)+' from LUMARKETS','_blank');
+}
+function openSignin(){ var m=document.getElementById('signinModal'); m.classList.remove('hidden'); m.style.display='flex'; }
+function closeSignin(){ var m=document.getElementById('signinModal'); m.classList.add('hidden'); m.style.display='none'; }
 function doSignin(){
-  var name = document.getElementById('uName').value.trim();
-  var phone = document.getElementById('uPhone').value.trim();
-  if(!name || !phone){ alert('Please enter Name and Phone'); return; }
-  localStorage.setItem('lu_user', JSON.stringify({name:name, phone:phone}));
-  var m = document.getElementById('signinModal');
-  m.classList.add('hidden');
-  m.style.display = 'none';
-  alert('Welcome ' + name + '! You are signed in.');
-  location.reload();
+  var name=document.getElementById('uName').value.trim();
+  var phone=document.getElementById('uPhone').value.trim();
+  if(!name||!phone){ alert('Please enter Name and Phone'); return; }
+  localStorage.setItem('lu_user', JSON.stringify({name:name,phone:phone}));
+  closeSignin();
+  updateUser();
+  alert('Welcome '+name+'! You are signed in.');
 }
-function closeSignin(){
-  var m = document.getElementById('signinModal');
-  m.classList.add('hidden');
-  m.style.display = 'none';
+function updateUser(){
+  var user=JSON.parse(localStorage.getItem('lu_user')||'null');
+  if(user) document.getElementById('userLabel').textContent='Hi, '+user.name;
 }
-function closeTerms(){
-  var m = document.getElementById('termsModal');
-  if(m){ m.classList.add('hidden'); m.style.display='none'; }
+function openSell(){
+  var user=JSON.parse(localStorage.getItem('lu_user')||'null');
+  if(!user){ alert('Please Sign In first to sell.'); openSignin(); return; }
+  var m=document.getElementById('sellModal'); m.classList.remove('hidden'); m.style.display='flex';
 }
-function openSignin(){
-  var m = document.getElementById('signinModal');
-  m.classList.remove('hidden');
-  m.style.display = 'flex';
+function closeSell(){ var m=document.getElementById('sellModal'); m.classList.add('hidden'); m.style.display='none'; }
+function doSell(){
+  var name=document.getElementById('pName').value.trim();
+  var price=document.getElementById('pPrice').value;
+  var loc=document.getElementById('pLoc').value.trim()||'Nyahururu';
+  var phone=document.getElementById('pPhone').value.trim();
+  if(!name||!price||!phone){ alert('Please fill Name, Price and Phone'); return; }
+  var p={name:name,cat:document.getElementById('pCat').value,price:Number(price),loc:loc,phone:phone,img:document.getElementById('pImg').value||'https://via.placeholder.com/400x300?text=LUMARKETS'};
+  var all=JSON.parse(localStorage.getItem('lu_products')||'[]'); all.unshift(p); localStorage.setItem('lu_products',JSON.stringify(all));
+  products.unshift(p); closeSell(); render(); alert('Product posted!');
 }
-window.doSignin = doSignin;
-window.closeSignin = closeSignin;
-window.closeTerms = closeTerms;
-window.openSignin = openSignin;
+function openTerms(){ var m=document.getElementById('termsModal'); m.classList.remove('hidden'); m.style.display='flex'; }
+function closeTerms(){ var m=document.getElementById('termsModal'); m.classList.add('hidden'); m.style.display='none'; }
+updateUser();
+render();
 </script>
 </body>
 </html>
